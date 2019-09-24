@@ -105,4 +105,4 @@ venv.bak/
 
 # added by aneeq, the author
 /hw1/pendigits_data/*
-.~lock # temp files
+*.~lock # temp files
