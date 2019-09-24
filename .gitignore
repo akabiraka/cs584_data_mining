@@ -103,4 +103,6 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+# added by aneeq, the author
 /hw1/pendigits_data/*
+.~lock # temp files
