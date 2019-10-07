@@ -108,3 +108,4 @@ venv.bak/
 .~lock* # temp files
 /hw1/mnist_in_csv/mnist_test.csv
 /hw1/mnist_in_csv/mnist_train.csv
+/hw1/mnist/*
