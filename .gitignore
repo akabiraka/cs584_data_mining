@@ -105,6 +105,6 @@ venv.bak/
 
 # added by aneeq, the author
 /hw1/pendigits_data/*
-*.~lock* # temp files
-project1/dataset_diabetes/.~lock.diabetic_data.csv#
-project1/.~lock.project_progress.odt#
+.~lock* # temp files
+/hw1/mnist_in_csv/mnist_test.csv
+/hw1/mnist_in_csv/mnist_train.csv
