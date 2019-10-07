@@ -13,6 +13,7 @@ from matplotlib import pyplot as plt
 
 import import_ipynb
 from plot_confusion_matrix import plot_my_conf_matrix as conf_x
+from util import Util
 #get_ipython().run_line_magic('matplotlib', 'inline')
 
 
@@ -73,5 +74,7 @@ def main():
     predict(gini_model, x_test, y_test, save_path="../graphs/conf_matrix_entropy_test_set.png")
     k_fold_cross_validation(x_train, y_train, k=5, criterion='gini')
     k_fold_cross_validation(x_train, y_train, k=5, criterion='entropy')
-
+    util = Util()
+    util.save_model(model=gini_model, filename="../saved_models/gini_model.sav")
+    util.save_model(model=entropy_model, filename="../saved_models/entropy_model.sav")
 main()
