@@ -54,11 +54,11 @@ def get_dt_model(x_train, y_train, criterion="gini"):
     model.fit(x_train, y_train)
     return model
 
-def predict(model, x_data, y_data, save_path=None):
+def predict(model, x_data, y_data, save_path=None, title=None):
     y_predict = model.predict(x_data)
     print_accuray_precision_recall(y_data, y_predict)
     if save_path:
-        conf_x(y_data, y_predict, classes=['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], title="Confusion Matrix for Train set (gini)", save_path=save_path)
+        conf_x(y_data, y_predict, classes=['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], title=title, save_path=save_path)
 
 def k_fold_cross_validation(x_train, y_train, k=5, criterion='gini'):
     model = tree.DecisionTreeClassifier(criterion=criterion)
@@ -67,11 +67,11 @@ def k_fold_cross_validation(x_train, y_train, k=5, criterion='gini'):
 def main():
     x_train, y_train, x_test, y_test = load_data()
     gini_model = get_dt_model(x_train, y_train, criterion='gini')
-    predict(gini_model, x_train, y_train, save_path="../graphs/conf_matrix_gini_train_set.png")
-    predict(gini_model, x_test, y_test, save_path="../graphs/conf_matrix_gini_test_set.png")
+    predict(gini_model, x_train, y_train, save_path="../graphs/conf_matrix_gini_train_set.png", title="Confusion matrix for Gini (train set)")
+    predict(gini_model, x_test, y_test, save_path="../graphs/conf_matrix_gini_test_set.png", title="Confusion matrix for Gini (test set)")
     entropy_model = get_dt_model(x_train, y_train, criterion='entropy')
-    predict(gini_model, x_train, y_train, save_path="../graphs/conf_matrix_entropy_train_set.png")
-    predict(gini_model, x_test, y_test, save_path="../graphs/conf_matrix_entropy_test_set.png")
+    predict(gini_model, x_train, y_train, save_path="../graphs/conf_matrix_entropy_train_set.png", title="Confusion matrix for Entropy (train set)")
+    predict(gini_model, x_test, y_test, save_path="../graphs/conf_matrix_entropy_test_set.png", title="Confusion matrix for Entropy (test set)")
     k_fold_cross_validation(x_train, y_train, k=5, criterion='gini')
     k_fold_cross_validation(x_train, y_train, k=5, criterion='entropy')
     util = Util()
