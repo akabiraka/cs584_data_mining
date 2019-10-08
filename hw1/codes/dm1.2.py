@@ -3,43 +3,51 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
-def load_data():
+def sample_50_data_each_class():
     df_train = pd.read_csv('../mnist_in_csv/mnist_train.csv', delimiter=',')
-    train_labels = df_train['label']
-    df_train = df_train.drop(columns='label')
-    print(train_labels.shape)
-    print(df_train.shape)
-    pixels = np.array(df_train.iloc[0, :]).reshape((28, 28))
-    # plt.imshow(pixels, cmap='gray')
-    # plt.show()
-    x = np.linspace(start=0, stop=27, num=8, endpoint=False, dtype='int16')
-    trajectory_coordinates = np.array([x, x])
-    features = []
-    # random_coordinates = np.random.randint(low=0, high=27, size=(2, 8))
-    for i in range(8):
-        x, y = trajectory_coordinates[0, i], trajectory_coordinates[1, i]
-        features.append(pixels[x, y])
-    #     x, y = random_coordinates[0, i], random_coordinates[1, i]
-    #     print(pixels[x, y])
+    class_labels = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    df_samples = pd.DataFrame()
+    for cls_lbl in range(10):
+        df_samples = df_samples.append(df_train.loc[df_train['label'] == cls_lbl].sample(n=50), ignore_index = True)
 
+    train_labels = df_samples['label']
+    df_samples = df_samples.drop(columns='label')
+
+    print("extracting features ... ...")
+    samples = []
+    for irow in range(df_samples.shape[0]):
+        pixels = np.array(df_samples.iloc[irow, :]).reshape((28, 28))
+        # plt.imshow(pixels, cmap='gray')
+        # plt.show()
+        samples.append(get_n_features(pixels, class_label=train_labels.iloc[irow]))
+    print("saving samples 50 per class ... ...")
+    np.savetxt("../saved_data/50_samples_each_class.csv", np.array(samples), delimiter=",")
+
+def get_n_features(pixels, class_label, n=16):
     i=0
-    while(i!=8):
+    points = []
+    while(i!=n):
         i = i+1
+        point = []
         while True:
             x, y = np.random.randint(low=0, high=27), np.random.randint(low=0, high=27)
-            # print(i, " ", x, " ", y, " ", pixels[x, y])
             if pixels[x, y]:
-                features.append(pixels[x, y])
+                point.append(x)
+                point.append(y)
+                point.append(pixels[x, y])
+                points.append(point)
                 break
-    features.append(train_labels.iloc[0])
-    print(features)
+    # print(points)
+    points = np.array(points)
+    ind = np.lexsort((points[:,1], points[:,0]))
+    sorted = points[ind]
+    features = sorted[:, 2]
+    # print(sorted)
+    # print(features)
+    features = np.append(features, class_label)
+    return features
 
 def main():
-    load_data()
-    # x = np.linspace(start=0, stop=27, num=8, endpoint=False, dtype='int16')
-    # trajectory_coordinates = np.array([x, x])
-    # print(np.array([x, x]))
-    # print(np.linspace(start=0, stop=27, num=8, endpoint=False, dtype='int16'))
-    # print(np.random.randint(low=0, high=27, size=(2, 8)))
+    sample_50_data_each_class()
 
 main()
