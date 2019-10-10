@@ -21,7 +21,9 @@ def sample_50_data_each_class():
         # plt.show()
         samples.append(get_n_features(pixels, class_label=train_labels.iloc[irow]))
     print("saving samples 50 per class ... ...")
-    np.savetxt("../saved_data/50_samples_each_class.csv", np.array(samples), delimiter=",")
+    samples = np.array(samples)
+    print(samples.dtype)
+    np.savetxt("../saved_data/50_samples_each_class.csv", samples, delimiter=",")
 
 def get_n_features(pixels, class_label, n=16):
     i=0

@@ -49,9 +49,10 @@ def print_accuray_precision_recall(y_true, y_predict):
     print("Recall per class: ", metrics.recall_score(y_true, y_predict, average=None)) # recall score for each class
     print("Recall: ", metrics.recall_score(y_true, y_predict, average='macro'))
 
-def get_dt_model(x_train, y_train, criterion="gini"):
-    model = tree.DecisionTreeClassifier(criterion=criterion)
+def get_dt_model(x_train, y_train, criterion='gini', splitter='best', max_depth=None, max_features=None, max_leaf_nodes=None, min_impurity_decrease=0.0, min_impurity_split=None):
+    model = tree.DecisionTreeClassifier(criterion=criterion, splitter=splitter)
     model.fit(x_train, y_train)
+    print("Tree: ", model.tree_)
     return model
 
 def predict(model, x_data, y_data, save_path=None, title=None):
@@ -66,15 +67,21 @@ def k_fold_cross_validation(x_train, y_train, k=5, criterion='gini'):
 
 def main():
     x_train, y_train, x_test, y_test = load_data()
+    print("DT: criterion='gini', splitter='best'")
     gini_model = get_dt_model(x_train, y_train, criterion='gini')
     predict(gini_model, x_train, y_train, save_path="../graphs/conf_matrix_gini_train_set.png", title="Confusion matrix for Gini (train set)")
     predict(gini_model, x_test, y_test, save_path="../graphs/conf_matrix_gini_test_set.png", title="Confusion matrix for Gini (test set)")
-    entropy_model = get_dt_model(x_train, y_train, criterion='entropy')
-    predict(gini_model, x_train, y_train, save_path="../graphs/conf_matrix_entropy_train_set.png", title="Confusion matrix for Entropy (train set)")
-    predict(gini_model, x_test, y_test, save_path="../graphs/conf_matrix_entropy_test_set.png", title="Confusion matrix for Entropy (test set)")
-    k_fold_cross_validation(x_train, y_train, k=5, criterion='gini')
-    k_fold_cross_validation(x_train, y_train, k=5, criterion='entropy')
-    util = Util()
-    util.save_model(model=gini_model, filename="../saved_models/gini_model.sav")
-    util.save_model(model=entropy_model, filename="../saved_models/entropy_model.sav")
+    print("DT: criterion='gini', splitter='random'")
+    gini_model = get_dt_model(x_train, y_train, criterion='gini', splitter='random')
+    predict(gini_model, x_train, y_train, save_path="../graphs/conf_matrix_gini_random_train_set.png", title="Confusion matrix for Gini random (train set)")
+    predict(gini_model, x_test, y_test, save_path="../graphs/conf_matrix_gini_random_test_set.png", title="Confusion matrix for Gini random (test set)")
+    
+    # entropy_model = get_dt_model(x_train, y_train, criterion='entropy')
+    # predict(entropy_model, x_train, y_train, save_path="../graphs/conf_matrix_entropy_train_set.png", title="Confusion matrix for Entropy (train set)")
+    # predict(entropy_model, x_test, y_test, save_path="../graphs/conf_matrix_entropy_test_set.png", title="Confusion matrix for Entropy (test set)")
+    # k_fold_cross_validation(x_train, y_train, k=5, criterion='gini')
+    # k_fold_cross_validation(x_train, y_train, k=5, criterion='entropy')
+    # util = Util()
+    # util.save_model(model=gini_model, filename="../saved_models/gini_model.sav")
+    # util.save_model(model=entropy_model, filename="../saved_models/entropy_model.sav")
 main()
