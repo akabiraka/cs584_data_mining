@@ -110,26 +110,26 @@ def plot_my_conf_matrix(y_true, y_pred, classes, figsize=(10, 10), save_path=Non
 # In[13]:
 
 
-import seaborn as sn
-import pandas as pd
-import matplotlib.pyplot as plt
-
-def my_test():
-    array = [[13,1,1,0,2,0],
-     [3,9,6,0,1,0],
-     [0,0,16,2,0,0],
-     [0,0,0,13,0,0],
-     [0,0,0,0,15,0],
-     [0,0,1,0,0,15]]
-    df_cm = pd.DataFrame(array, range(6), range(6))
-    plt.figure(figsize = (10,7))
-    sn.set(font_scale=1.4)#for label size
-    ax = sn.heatmap(df_cm, annot=True,annot_kws={"size": 16})# font size
-    #plt.savefig("xxx.png")
-    ax.set_ylim(6.0, 0)
-    #plt.show()
-
-my_test()
+# import seaborn as sn
+# import pandas as pd
+# import matplotlib.pyplot as plt
+#
+# def my_test():
+#     array = [[13,1,1,0,2,0],
+#      [3,9,6,0,1,0],
+#      [0,0,16,2,0,0],
+#      [0,0,0,13,0,0],
+#      [0,0,0,0,15,0],
+#      [0,0,1,0,0,15]]
+#     df_cm = pd.DataFrame(array, range(6), range(6))
+#     plt.figure(figsize = (10,7))
+#     sn.set(font_scale=1.4)#for label size
+#     ax = sn.heatmap(df_cm, annot=True,annot_kws={"size": 16})# font size
+#     #plt.savefig("xxx.png")
+#     ax.set_ylim(6.0, 0)
+#     #plt.show()
+#
+# my_test()
 
 
 # In[ ]:
